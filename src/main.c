@@ -42,11 +42,13 @@ int main(int argc, char *argv[]){
 
     char** SearchMatrix;
     int i;
+
+
     SearchMatrix = malloc((mat_row) *sizeof(char *));
     for (i = 0; i < mat_row; i++){
       SearchMatrix[i] = malloc((mat_col+1) * sizeof (char));
     }
-    int store_check = SearchMatrix_Store(SearchMatrix, mat_col+1, mat_row, puzzle);
+   int store_check = SearchMatrix_Store(SearchMatrix, mat_col+1, mat_row, puzzle);
     printf ("store_check= %d\n", store_check);
 
    for (i = 0; i < mat_row; i++){
