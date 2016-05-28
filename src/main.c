@@ -39,14 +39,21 @@ int main(int argc, char *argv[]){
     #ifdef DEBUG
       printf("mat_row = %d\n", mat_row);
     #endif
-/*
-    char* SearchMatrix;
-    SearchMatrix = malloc((mat_col +1 ) *sizeof(char));
-    int store_check = SearchMatrix_Store(SearchMatrix, puzzle);
 
+    char** SearchMatrix;
+    int i;
+    SearchMatrix = malloc((mat_row) *sizeof(char *));
+    for (i = 0; i < mat_row; i++){
+      SearchMatrix[i] = malloc((mat_col+1) * sizeof (char));
+    }
+    int store_check = SearchMatrix_Store(SearchMatrix, mat_col+1, mat_row, puzzle);
+    printf ("store_check= %d\n", store_check);
 
+   for (i = 0; i < mat_row; i++){
+     free (SearchMatrix[i]);
+   }
     free (SearchMatrix);
-*/
+
   //2.find the keywords
 
   //3.Output the result

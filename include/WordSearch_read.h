@@ -20,7 +20,7 @@ int FindTxtFile(char* location){
 int LetterMatrix_col(char* puzzle){
   FILE *txtfile;
   char c;
-  int col =0;
+  int col =1;
   txtfile = fopen (puzzle, "r");
   while ((c = fgetc(txtfile)) != '\n'){
     if (c != ' '){
@@ -37,7 +37,7 @@ int LetterMatrix_col(char* puzzle){
 int LetterMatrix_rows(char* puzzle){
   FILE *txtfile;
   char str [256];
-  int row=0;
+  int row=1;
   txtfile = fopen (puzzle, "r");
   while ((fgets(str, sizeof(str), txtfile) !=  NULL) && (str[0] != '\n'))
   {
