@@ -24,8 +24,8 @@ int LetterMatrix_col(char* puzzle){
   txtfile = fopen (puzzle, "r");
   while ((c = fgetc(txtfile)) != '\n'){
     if (c != ' '){
+      //printf("%c", c);
       col++;
-      printf("c = %c,  col = %d\n", c, col);
     }
   }
   fclose(txtfile);
@@ -36,29 +36,15 @@ int LetterMatrix_col(char* puzzle){
 /*counts the number of rows int letter matrix*/
 int LetterMatrix_rows(char* puzzle){
   FILE *txtfile;
-  char *str;
+  char str [256];
   int row=0;
   txtfile = fopen (puzzle, "r");
-  while (fgets(str, 250, txtfile)!=NULL)
+  while ((fgets(str, sizeof(str), txtfile) !=  NULL) && (str[0] != '\n'))
   {
+    //printf("%s\n", str);
     row ++;
   }
   fclose (txtfile);
+
    return row-1;
-}
-
-
-int LetterMatrix_Store(){
-  //if  good
-   //return 1;
-   // else
-   return 0;
-
-}
-int KeyWord_Store(){
-  //if  good
-   //return 1;
-   // else
-   return 0;
-
 }
