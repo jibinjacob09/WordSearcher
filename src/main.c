@@ -55,8 +55,12 @@ int main(int argc, char *argv[]){
 
   HashTable *KeyWord_tbl = CreateHashTable(1);
   printf("HashTable size = %d\n", KeyWord_tbl->size);
+  int rootadd = createRootsNode(KeyWord_tbl);
 
-  KeyWord_tbl->wordlist = setHashNode("foods", 'f');
+    setHashNode(KeyWord_tbl,"foods", 'f');
+      setHashNode(KeyWord_tbl,"fire", 'f');
+
+    traverseList(KeyWord_tbl->wordlist[5]);
 
 
 
@@ -66,7 +70,11 @@ int main(int argc, char *argv[]){
   }
   free (SearchMatrix);
 
- clearHashnode(KeyWord_tbl->wordlist);
+  //clearing the list roots
+  //clearHashnode(KeyWord_tbl->wordlist[5]->next);
+ for (i =0; i < 26; i ++){
+    clearHashnode(KeyWord_tbl->wordlist[i]);
+ }
  clearHashTable(KeyWord_tbl);
 
 

@@ -14,5 +14,5 @@ typedef struct list {
 
 typedef struct _hashtable{
   int size;
-  HashNode *wordlist;
+  HashNode *wordlist[26];
 }HashTable;
