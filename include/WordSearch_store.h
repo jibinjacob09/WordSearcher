@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-//#define DEBUG
+#include "WordSearch_hashtable.h"
+
+//#define DEBUG2
 //#define ShowStore
 
 
@@ -39,26 +41,44 @@ int SearchMatrix_Store(char **SearchMatrix, int mat_col, int mat_row, char* puzz
     #endif
   }
   fclose(txtfile);
-  //free (str);
-
-
-
-
-    #ifdef ShowStore
+      #ifdef ShowStore
       for (i = 0; i<row; i++){
         printf("%s\n", SearchMatrix[i]);
       }
     #endif
-
-
-  //nothing went wrong
   return 1;
-
 }
-int KeyWord_Store(){
-  //if  good
-   //return 1;
-   // else
+
+
+int KeyWord_Store(char * puzzle, int mat_col, HashTable * KeyWord_tbl){
+  FILE *txtfile;
+  txtfile = fopen (puzzle, "r");
+  char s[mat_col*2+1];
+
+  //going to the keyword section in the puzzle
+  while (strcmp(s, "***\n") != 0){
+    fgets(s, mat_col*2+1,txtfile);
+  }
+  while (strcmp(s, "****\n") != 0){
+    fgets(s, mat_col*2+1,txtfile);
+    char * keyword;
+    int l = strlen(s);
+
+      if  (s[0] != '*'){
+      keyword = malloc((l-1)*sizeof(char));
+      strncpy(keyword,s,l-1);
+      #ifdef DEBUG2
+      printf("attempting to store %s  key = %c\n", keyword, s[0]);
+      #endif
+      setHashNode(KeyWord_tbl,keyword,s[0]);
+      free (keyword);
+    }
+
+  }
+
+
+  fclose(txtfile);
+
    return 0;
 
 }

@@ -62,7 +62,9 @@ void  setHashNode(HashTable * KeyWord_tbl, char* word, char startlett){
   hashnode->next = KeyWord_tbl->wordlist[charkey]->next;
   KeyWord_tbl->wordlist[charkey]->next = hashnode;
 
+  #ifdef DEBUG
   printf("done the swap\n");
+  #endif
 }
 
 
