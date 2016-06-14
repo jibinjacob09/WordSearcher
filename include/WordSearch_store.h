@@ -10,22 +10,27 @@
 
 /*This function stores the SearchMatrix in a 2D char array.  This allows the program to
 find the keywords by going to through all the characters*/
-int SearchMatrix_Store(char **SearchMatrix, int mat_col, int mat_row, char* puzzle){
-  FILE *txtfile;
-  char c, str[mat_col+1];
-  int col =0, i;
-  int row =0;
-  txtfile = fopen (puzzle, "r");
-  /*Storing the SearchMatrix chars which occurs before the "******"*/
-  while ((c = fgetc(txtfile)) != '*'){
-    #ifdef DEBUG
-    printf("%c ", c);
-    #endif
-    if ((c != '\n') && (c != ' ')){
+int SearchMatrix_Store(char **SearchMatrix, int mat_col, int mat_row, FILE* puzzletxt){
+  char c;
+  char * str;
+  int col =0, row = 0, i;
+  /*Storing the SearchMatrix chars which occurs before the "***"*/
+  str = malloc((mat_col +2) * sizeof(char));
+  while (((fgets(str,mat_col+2,puzzletxt)) != NULL) && (str[0] != '*')){
+    if (row < mat_row){
+    //  SearchMatrix[row] = malloc(strlen(str) * sizeof(char));
+      strcpy(SearchMatrix[row], str);
+      #ifdef DEBUG
+     printf("%s\n ", SearchMatrix[row]);
+      #endif
+      row++;
+    }
+  }
+    /*if ((c != '\n') && (c != ' ')){
       str[col] = c;
       col++;
-    }
-    else if ((row < mat_row) && (c == '\n')){
+    }*/
+    /*else if ((row < mat_row) && (c == '\n')){
       strcpy(SearchMatrix[row], str);
       #ifdef DEBUG
       printf("copied %s, result %s\n", str, SearchMatrix[row]);
@@ -37,12 +42,13 @@ int SearchMatrix_Store(char **SearchMatrix, int mat_col, int mat_row, char* puzz
     printf("col = %d, row = %d \n", col, row);
     #endif
   }
-  fclose(txtfile);
+  fclose(puzzletxt);
   #ifdef ShowStore
   for (i = 0; i<row; i++){
     printf("%s\n", SearchMatrix[i]);
   }
-  #endif
+  #endif*/
+  free (str);
   return 1;
 }
 
@@ -102,9 +108,7 @@ int LetterMatrix_col(char* puzzle){
   int mat_col = 0;
   txtfile = fopen (puzzle, "r");
   while ((c = fgetc(txtfile)) != '\n'){
-    if (c != ' '){
-      mat_col++;
-    }
+    mat_col++;
   }
   fclose(txtfile);
   return mat_col;
@@ -112,12 +116,12 @@ int LetterMatrix_col(char* puzzle){
 
 
 /*counts the number of rows int letter matrix*/
-int LetterMatrix_rows(char* puzzle){
+int LetterMatrix_rows(char* puzzle, int col){
   FILE *txtfile;
-  char str [256]; //limit of 256 characters per row
-  int row = 0;
   txtfile = fopen (puzzle, "r");
-  while ((fgets(str, sizeof(str), txtfile) !=  NULL) && (str[0] != '\n') && (str[0] != '*'))
+  char str[col+2];  //array is bigger than size of counted col *2
+  int row = 0;
+  while ((fgets(str, col +2 , txtfile) !=  NULL) && (str[0] != '\n') && (str[0] != '*'))
   {
     row ++;
   }
