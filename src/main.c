@@ -1,52 +1,52 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-#include "WordSearch_read.h"
 #include "WordSearch_store.h"
-#include "WordSearch_hashtable.h"
+//#include "WordSearch_hashtable.h"
 
 #define DEBUG
 
-void VerifyPuzzle(char * puzzle){
-
-  /*verify if the file exists and is not empty*/
-  int filefound = FindTxtFile(puzzle);
-  #ifdef DEBUG
-  printf ("filefound = %d\n", filefound);
-  #endif
-
-  /*Unable to continue if file is not found*/
-  if (filefound == 0){
+int main(int argc, char *argv[]){
+/*Step 1:prepare puzzletxt for parsing/storing*/
+  char* puzzle = "Puzzles/Halloween.txt";
+  FILE * puzzletxt;
+  /*check if puzzle path is valid, and opening it*/
+  if (!VerifyPuzzle(puzzle)) {
     printf("Cannot Access %s\n   Exiting Now \n\n\n", puzzle);
     exit(0);
   }
-
-}
-
-
-int main(int argc, char *argv[]){
-
-  //1.read and store from txtfile
-  char* puzzle = "Puzzles/Halloween.txt";;
-  VerifyPuzzle(puzzle);
-
-  int mat_col = LetterMatrix_col(puzzle);
-  #ifdef DEBUG
-  printf("mat_col = %d\n", mat_col);
-  #endif
-
-
-  int mat_row = LetterMatrix_rows(puzzle);
-  #ifdef DEBUG
-  printf("mat_row = %d\n", mat_row);
-  #endif
-
+  else{
+    puzzletxt = fopen (puzzle, "r");
+    #ifdef DEBUG
+    printf("%s is valid, and opened file for reading\n", puzzle);
+    #endif
+  }
+  /*getting total number of columns in the letter matrix*/
+  int mat_col;
+  if ((mat_col = LetterMatrix_col(puzzle)) < 1){
+    printf("ERROR while counting coloumns in puzzle\n");
+  }
+  else{
+    #ifdef DEBUG
+    printf("columns counted =%d\n", mat_col);
+    #endif
+  }
+  /*gettomg the total number of rows in the letter matrix*/
+  int mat_row;
+  if ((mat_row = LetterMatrix_rows(puzzle)) < 0){
+      printf("ERROR while counting rows in puzzle\n");
+  }
+  else {
+    #ifdef DEBUG
+    printf("rows counted = %d\n", mat_row);
+    #endif
+  }
+/*Step 2: extract letter col and keywords from text and store
   char** SearchMatrix;
   int i;
 
 /* MASSIVE ERROR IN STORING THE SearchMatrix, FIX BEFORE JNI*/
-  SearchMatrix = malloc((mat_row) *sizeof(char *));
+/*  SearchMatrix = malloc((mat_row) *sizeof(char *));
   for (i = 0; i < mat_row; i++){
     SearchMatrix[i] = malloc((mat_col+1) * sizeof (char));
   }
@@ -57,15 +57,14 @@ int main(int argc, char *argv[]){
   printf("HashTable size = %d\n", KeyWord_tbl->size);
   int rootadd = createRootsNode(KeyWord_tbl);
 
-    setHashNode(KeyWord_tbl,"foods", 'f');
-      setHashNode(KeyWord_tbl,"fire", 'f');
+    int num = KeyWord_Store(puzzle, mat_col, KeyWord_tbl);
 
-    traverseList(KeyWord_tbl->wordlist[5]);
+    traverseList(KeyWord_tbl->wordlist[2]);
 
 
 
   /*FREEING MALLOCED VARIABLES**/
-  for (i = 0; i < mat_row; i++){
+/*  for (i = 0; i < mat_row; i++){
     free (SearchMatrix[i]);
   }
   free (SearchMatrix);
@@ -82,6 +81,6 @@ int main(int argc, char *argv[]){
 
   //3.Output the result
 
-
+*/
   return 0;
 }
