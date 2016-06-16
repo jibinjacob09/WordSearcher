@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "WordSearch_store.h"
+#include "WordSearch_searchmatrx.h"
 #include "WordSearch_hashtable.h"
 
 #define DEBUG
