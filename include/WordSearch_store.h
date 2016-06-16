@@ -2,9 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "WordSearch_hashtable.h"
-
-#define DEBUG
+//#define DEBUG
 //#define ShowStore
 
 
@@ -15,74 +13,26 @@ int SearchMatrix_Store(char **SearchMatrix, int mat_col, int mat_row, FILE* puzz
   char * str;
   int col =0, row = 0, i;
   /*Storing the SearchMatrix chars which occurs before the "***"*/
-  str = malloc((mat_col +2) * sizeof(char));
-  while (((fgets(str,mat_col+2,puzzletxt)) != NULL) && (str[0] != '*')){
+  str = malloc((mat_col +5) * sizeof(char));
+  while (((fgets(str,mat_col+3,puzzletxt)) != NULL) && (str[0] != '*')){
     if (row < mat_row){
     //  SearchMatrix[row] = malloc(strlen(str) * sizeof(char));
       strcpy(SearchMatrix[row], str);
       #ifdef DEBUG
-     printf("%s\n ", SearchMatrix[row]);
+      printf("%s\n ", SearchMatrix[row]);
       #endif
       row++;
     }
   }
-    /*if ((c != '\n') && (c != ' ')){
-      str[col] = c;
-      col++;
-    }*/
-    /*else if ((row < mat_row) && (c == '\n')){
-      strcpy(SearchMatrix[row], str);
-      #ifdef DEBUG
-      printf("copied %s, result %s\n", str, SearchMatrix[row]);
-      #endif
-      col = 0;
-      row = row+1;
-    }
-    #ifdef DEBUG
-    printf("col = %d, row = %d \n", col, row);
-    #endif
-  }
-  fclose(puzzletxt);
-  #ifdef ShowStore
-  for (i = 0; i<row; i++){
-    printf("%s\n", SearchMatrix[i]);
-  }
-  #endif*/
   free (str);
+  for (i =0; i < mat_row; i++){
+    if (SearchMatrix[i] == NULL){
+        printf("i = %d\n", i);
+        return 0;
+    }
+  }
   return 1;
 }
-
-/*This function reads the keywords from the puzzle.txt and stores it into a
-inputed hash map. The string *** indicates the start fo the keywords, and
-**** indicates the end.   Currently this format is necessary for the identification
-*/
-int KeyWord_Store(char * puzzle, int mat_col, HashTable * KeyWord_tbl){
-  FILE *txtfile;
-  txtfile = fopen (puzzle, "r");
-  char s[mat_col*2+1];
-  //going to the keyword section in the puzzle
-  while (strcmp(s, "***\n") != 0){
-    fgets(s, mat_col*2+1,txtfile);
-  }
-  while (strcmp(s, "****\n") != 0){
-    fgets(s, mat_col*2+1,txtfile);
-    char * keyword;
-    int l = strlen(s);
-      if  (s[0] != '*'){
-      keyword = malloc((l-1)*sizeof(char));
-      strncpy(keyword,s,l-1);
-      #ifdef DEBUG2
-      printf("attempting to store %s  key = %c\n", keyword, s[0]);
-      #endif
-      setHashNode(KeyWord_tbl,keyword,s[0]);
-      free (keyword);
-    }
-  }
-  fclose(txtfile);
-   return 0;
-}
-
-
 
 
 /*a function that verifies if the puzzle file exists*/

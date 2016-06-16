@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "WordSearch_store.h"
-//#include "WordSearch_hashtable.h"
+#include "WordSearch_hashtable.h"
 
 #define DEBUG
 
@@ -44,22 +44,61 @@ int main(int argc, char *argv[]){
 /*Step 2: extract letter col and keywords from text and store*/
   char** SearchMatrix;
   int i;
-/* MASSIVE ERROR IN STORING THE SearchMatrix, FIX BEFORE JNI*/
-  SearchMatrix = malloc((mat_row) *sizeof(char *));
-  for (i = 0; i < mat_row; i++){
-    SearchMatrix[i] = malloc((mat_col+2) * sizeof (char));
+  /*creating a device to store the letter matrix*/
+  if ((SearchMatrix = malloc((mat_row) *sizeof(char *))) == NULL){
+    printf("ERROR while creating SearchMatrix\n");
+  }
+  else {
+    for (i = 0; i < mat_row; i++){
+      SearchMatrix[i] = malloc((mat_col+5) * sizeof (char));
+    }
+  }
+  int store_check;
+  /*Parsing the letter matrix from the txtfile and storing it into SearchMatrix*/
+  if (!SearchMatrix_Store(SearchMatrix, mat_col, mat_row, puzzletxt)){
+      #ifdef DEBUG
+      printf("ERROR during storing letter matrix\n");
+      #endif
+  }
+  else{
+    #ifdef DEBUG
+    for (i =0; i < mat_row; i++){
+      printf("%s\n ", SearchMatrix[i]);
+    }
+    #endif
+  }
+  /*Creating a hashmap to store the keywords*/
+  HashTable *KeyWord_tbl;
+  if ((KeyWord_tbl = CreateHashTable()) == NULL){
+    printf("ERROR while creating hashmap\n");
+  }
+  else{
+    #ifdef DEBUG
+    printf("Hashmap of size %d, was created\n", KeyWord_tbl->size);
+    #endif
+  }
+  if (!createRootsNode(KeyWord_tbl)){
+    printf("ERROR creating RootNodes\n");
+  }
+  else{
+    #ifdef DEBUG
+    for (i =0; i <26; i ++){
+      printf("wordlist[i]->hashkey %c\n",   KeyWord_tbl->wordlist[i]->hashkey );
+    }
+    #endif
+  }
+  if (!KeyWord_Store(puzzletxt, mat_row, mat_col, KeyWord_tbl)){
+    printf("ERROR while storing keywords into hashmap\n");
+  }
+  else{
+    #ifdef DEBUG
+    for ( i =0; i <26; i++){
+      traverseList(KeyWord_tbl->wordlist[i]);
+    }
+    #endif
   }
 
-  int store_check = SearchMatrix_Store(SearchMatrix, mat_col, mat_row, puzzletxt);
-  printf ("store_check= %d\n", store_check);
-/*
-  HashTable *KeyWord_tbl = CreateHashTable(1);
-  printf("HashTable size = %d\n", KeyWord_tbl->size);
-  int rootadd = createRootsNode(KeyWord_tbl);
-
-    int num = KeyWord_Store(puzzle, mat_col, KeyWord_tbl);
-
-    traverseList(KeyWord_tbl->wordlist[2]);
+  //  traverseList(KeyWord_tbl->wordlist[2]);
 
 
 
@@ -68,7 +107,7 @@ int main(int argc, char *argv[]){
     free (SearchMatrix[i]);
   }
   free (SearchMatrix);
-/*
+
   //clearing the list roots
   //clearHashnode(KeyWord_tbl->wordlist[5]->next);
  for (i =0; i < 26; i ++){
@@ -81,7 +120,7 @@ int main(int argc, char *argv[]){
 
   //3.Output the result
 
-*/
+
   fclose(puzzletxt);
   return 0;
 }
