@@ -6,6 +6,12 @@
 
 #define DEBUG
 
+
+/*Prototypes*/
+void freeVars(char ** SearchMatrix, int mat_row, HashTable * KeyWord_tbl);
+
+
+
 int main(int argc, char *argv[]){
 /*Step 1:prepare puzzletxt for parsing/storing*/
   char* puzzle = "Puzzles/Halloween.txt";
@@ -97,30 +103,25 @@ int main(int argc, char *argv[]){
     }
     #endif
   }
-
-  //  traverseList(KeyWord_tbl->wordlist[2]);
-
+    //2.find the keywords
+    //3.Output the result
+    fclose(puzzletxt);
+    freeVars (SearchMatrix, mat_row, KeyWord_tbl);
+    return 0;
+}
 
 
   /*FREEING MALLOCED VARIABLES**/
+void freeVars(char ** SearchMatrix, int mat_row, HashTable * KeyWord_tbl){
+  int i;
   for (i = 0; i < mat_row; i++){
     free (SearchMatrix[i]);
   }
   free (SearchMatrix);
-
   //clearing the list roots
-  //clearHashnode(KeyWord_tbl->wordlist[5]->next);
  for (i =0; i < 26; i ++){
     clearHashnode(KeyWord_tbl->wordlist[i]);
  }
  clearHashTable(KeyWord_tbl);
 
-
-  //2.find the keywords
-
-  //3.Output the result
-
-
-  fclose(puzzletxt);
-  return 0;
 }
