@@ -3,10 +3,7 @@
 #include <stdlib.h>
 #include "WordSearch_struct.h"
 
-//#define DEBUG
-
-
-
+//#define DEBUG2
 
 /*Creates the Hashtable without any lists*/
 HashTable * CreateHashTable (){
@@ -62,7 +59,7 @@ int  setHashNode(HashTable * KeyWord_tbl, char* word, char startlett){
   #ifdef DEBUG
   printf("hashnode->keyword = %s,  hashkey=%c\n", hashnode->keyword, hashnode->hashkey);
   #endif
-  hashnode->found = false;
+  hashnode->found = 0;
   hashnode->next = KeyWord_tbl->wordlist[charkey]->next;
   KeyWord_tbl->wordlist[charkey]->next = hashnode;
   #ifdef DEBUG
@@ -72,13 +69,38 @@ int  setHashNode(HashTable * KeyWord_tbl, char* word, char startlett){
 
 
 
+/*Returns the node that contains the substring c[] given the starting node of the list*/
+HashNode *  FindinList(HashNode * node, char c[]){
+  HashNode * tempnode, *returnnode;
+  tempnode = node->next;
 
-void traverseList(HashNode * rootnode){
-  HashNode * node;
-  node = rootnode->next;
-  while(node){
-    printf("traversedlist: %s\n", node->keyword);
-    node = node->next;
+  while(tempnode != NULL){
+    if (tempnode->found ==0){ /*0 = false, 1 = true*/
+      #ifdef DEBUG
+      int l = strlen(c);
+      printf("keyword %s, c %s, strlen(c) %d, strncmp result %d\n", tempnode->keyword, c, l, strncmp(tempnode->keyword,c,l));
+      #endif
+      /*checking for a match between the substring and a node*/
+      if((strncmp(tempnode->keyword,c,strlen(c)))==0){
+        #ifdef DEBUG2
+        printf("found a match between %s and %s\n", tempnode->keyword, c);
+        #endif
+        returnnode = tempnode;
+        return returnnode;
+      }
+    }
+    tempnode = tempnode->next;
+  }
+  return NULL;
+}
+
+/*this funciton verifies wether a next node exists*/
+int nextNodeExists(HashNode * node){
+  if (node->next != NULL){
+    return 1;
+  }
+  else{
+    return 0;
   }
 }
 
@@ -106,18 +128,6 @@ void clearHashnode(HashNode *rootnode){
 /*frees the allocated memoory of the HashTable*/
 void clearHashTable(HashTable *KeyWord_tbl){
   free(KeyWord_tbl);
-}
-
-/*function to determine which is larger, the matrix row or column.
-the idea is that the largest keyword will only be as large as the matrix's biggest
-dimension*/
-int Maxof(int row, int col){
-  if (row >= col){
-    return row;
-  }
-  else if (col > row){
-    return col;
-  }
 }
 
 

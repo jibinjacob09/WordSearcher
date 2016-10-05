@@ -78,3 +78,15 @@ int LetterMatrix_rows(char* puzzle, int col){
   fclose (txtfile);
    return row;
 }
+
+/*function to determine which is larger, the matrix row or column.
+the idea is that the largest keyword will only be as large as the matrix's biggest
+dimension*/
+int Maxof(int row, int col){
+  if (row >= col){
+    return row;
+  }
+  else if (col > row){
+    return col;
+  }
+}

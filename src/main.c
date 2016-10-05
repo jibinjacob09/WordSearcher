@@ -3,8 +3,9 @@
 
 #include "WordSearch_searchmatrx.h"
 #include "WordSearch_hashtable.h"
+#include "WordSearch_find.h"
 
-#define DEBUG
+//  #define DEBUG
 
 
 /*Prototypes*/
@@ -93,22 +94,24 @@ int main(int argc, char *argv[]){
     }
     #endif
   }
+  HashNode * tempnode;
   if (!KeyWord_Store(puzzletxt, mat_row, mat_col, KeyWord_tbl)){
     printf("ERROR while storing keywords into hashmap\n");
   }
-  else{
-    #ifdef DEBUG
-    for ( i =0; i <26; i++){
-      traverseList(KeyWord_tbl->wordlist[i]);
-    }
-    #endif
-  }
-    //2.find the keywords
-    //3.Output the result
+
+  //Step 3 finds the keywords stored in the HashTable in the matrix
+    checkForKeyWord(SearchMatrix, mat_row, mat_col, KeyWord_tbl);
+    printf("night = %d\n",  nextNodeExists(KeyWord_tbl->wordlist[13]));
+
+
+  //Step 4 output the resutls
+
     fclose(puzzletxt);
     freeVars (SearchMatrix, mat_row, KeyWord_tbl);
     return 0;
 }
+
+
 
 
   /*FREEING MALLOCED VARIABLES**/
