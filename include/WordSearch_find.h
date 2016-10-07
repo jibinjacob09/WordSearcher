@@ -15,7 +15,7 @@ void checkForKeyWord(char ** SearchMatrix, int mat_row, int mat_col, HashTable* 
   char c[Maxof(mat_row,mat_col)+1]; /*an array to store letters from the matrix*/
 
   /* looping through each char in the row looking for the keywords*/
-  for (col = 0; col < mat_col-1; col++){
+  for (col = 0; col < 5 /*mat_col-1*/; col++){
     if ((c[0] = SearchMatrix[row][col]) != ' '){
       #ifdef DEBUG_FIND
       printf("letter %c\n", c[0]);
@@ -37,7 +37,7 @@ void checkForKeyWord(char ** SearchMatrix, int mat_row, int mat_col, HashTable* 
           }
         }
         c[2] = '\0'; /*terminating string correctly to avoid meory issues*/
-        int checkright = checkSequence(SearchMatrix,KeyWord_tbl,c,col,row,mat_col,right);
+        int checkright = checkSequence(SearchMatrix,KeyWord_tbl,c,col,row,mat_col, mat_row, right);
         #ifdef DEBUG_FIND
           printf("checkright = %d\n", checkright);
         #endif
@@ -59,12 +59,11 @@ void checkForKeyWord(char ** SearchMatrix, int mat_row, int mat_col, HashTable* 
           }
           c[2] = '\0'; /*terminating string correctly to avoid meory issues*/
 
-          int checkdown = checkSequence(SearchMatrix,KeyWord_tbl,c,col,row,mat_col,down);
+          int checkdown = checkSequence(SearchMatrix,KeyWord_tbl,c,col,row,mat_col, mat_row, down);
           #ifdef DEBUG_FIND
             printf("checkdown = %d\n", checkdown);
           #endif
 
-          exit(0);
         }
 
 
@@ -76,7 +75,7 @@ void checkForKeyWord(char ** SearchMatrix, int mat_row, int mat_col, HashTable* 
 /*this function checks if a given sequence of chars matches any nodes in the hashtable. If there is matche,
 then it goes to the SearchMatrix and then extracts chars to see if this is the location of the keyword.
 returns 1 if the keyword is found and 0 if not found */
-int checkSequence(char ** SearchMatrix,HashTable* KeyWord_tbl, char c[], int col, int row, int mat_col, int direction){
+int checkSequence(char ** SearchMatrix,HashTable* KeyWord_tbl, char c[], int col, int row, int mat_col, int mat_row, int direction){
 
   HashNode * tempnode;
       int i= 0, count=0, returnval = 0;
@@ -90,33 +89,42 @@ int checkSequence(char ** SearchMatrix,HashTable* KeyWord_tbl, char c[], int col
           /*getting ready to extract l number of chars from matrix for comparsion*/
           switch (direction){
             case right :
-              printf("right\n");
-              break;
+                  printf("right\n");
+                  if ((mat_col - col) >= l){
+                    while(count < l){
+                      /*extracting only valid chars*/
+                     if (SearchMatrix[row][col + i] != ' '){
+                        c[count] = SearchMatrix[row][col +i];
+                        count++;
+                        c[count] = '\0'; /*need to terminate string to avoid memory issues*/
+                      }
+                      i++;
+                    }
+                  }
+                  break;
             case down:
-              printf("down\n");
-              break;
+                  printf("down\n");
+                  if ((mat_row - row) >= l){
+                    while(count < l){
+                      /*extracting only valid chars*/
+                     if (SearchMatrix[row + i][col] != ' '){
+                        c[count] = SearchMatrix[row + i][col];
+                        count++;
+                        c[count] = '\0'; /*need to terminate string to avoid memory issues*/
+                      }
+                      i++;
+                    }
+                  }
+                  break;
             default:
               exit (0);
           }
+          if (l > 0) {
+            #ifdef DEBUG_FIND
+             printf("full extracted c = %s\n", c);
+            #endif
 
-
-
-        if ((mat_col - col) >= l){
-            while(count < l){
-              /*extracting only valid chars*/
-             if (SearchMatrix[row][col + i] != ' '){
-                c[count] = SearchMatrix[row][col +i];
-                count++;
-                c[count] = '\0'; /*need to terminate string to avoid memory issues*/
-              }
-              i++;
-            }
             l = strlen(c);
-
-          #ifdef DEBUG_FIND
-           printf("full extracted c = %s\n", c);
-          #endif
-
             /*comparing if the letters extracted equals the keyword*/
             if (strcmp(c,tempnode->keyword) == 0){
               /*changing the status of the keyword, to avoid finding again*/
@@ -124,6 +132,9 @@ int checkSequence(char ** SearchMatrix,HashTable* KeyWord_tbl, char c[], int col
               returnval = 1;
               break;
             }
+          }
+          else{
+            exit(0);
           }
        }
         else { /*no nodes for this sequence found*/
