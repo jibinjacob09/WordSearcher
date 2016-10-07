@@ -5,6 +5,13 @@ enum bool{
   false
 };
 
+enum directions {
+  up =0,
+  down = 1,
+  right =2,
+  left = 3
+};
+
 typedef struct list {
   char *keyword;
   char hashkey;
