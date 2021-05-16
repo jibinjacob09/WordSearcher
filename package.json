@@ -1,0 +1,16 @@
+{
+  "name": "WordSearcher",
+  "version": "0.0.1",
+  "description": "A program that solves wordsearch puzzles",
+  "main": "index.js",
+  "repository": "git@github.com:jibinjacob09/WordSearcher.git",
+  "author": "Jibin <jibinjj@yahoo.ca>",
+  "license": "MIT",
+  "scripts": {
+  
+    "build": "babel src -d dist"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  }
+}
