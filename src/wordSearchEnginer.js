@@ -16,7 +16,7 @@ function wordSearchEngine(matxChars, lstWords) {
   for (let word of lstWords) {
     word = word.toLocaleLowerCase();
     outputMatx = findHorizontalRight(horiz.right, word, matxChars, outputMatx);
-    // outputMatx = findHorizontalLeft(horiz.left, word, outputMatx)
+    outputMatx = findHorizontalLeft(horiz.left, word, matxChars, outputMatx);
   }
   console.log(outputMatx);
 }
@@ -35,20 +35,18 @@ function findHorizontalRight(horizCharsR, word, charMatx, outputMatx) {
   return outputMatx;
 }
 
-function findHorizontalLeft(horizCharsL, word,charMatx, outputMatx) {
+function findHorizontalLeft(horizCharsL, word, charMatx, outputMatx) {
   const newRowIndex = horizCharsL.indexOf("~");
-  wordIndex = horizCharsL.indexOf(word);
+  const wordIndex = horizCharsL.indexOf(word);
+  const _colCount = charMatx[0].length;
+
   if (wordIndex > -1) {
-    console.log(
-      `word: ${word} wordIndex: ${wordIndex}, newRowIndex: ${newRowIndex}`
-    );
-    const row = Math.floor(wordIndex / newRowIndex);
+    const row = Math.floor(wordIndex / (newRowIndex + 1));
     const col = _colCount - 1 - (wordIndex % (newRowIndex + 1));
 
-    console.log(`row:${wordIndex / newRowIndex}, col:${col}`);
+    console.log(`word: ${word} row:${row}, col:${col}`);
     for (let l = 0; l < word.length; l++) {
-      console.log(`r:${outputMatx[row]} val: ${matxChars[row]}`);
-      // outputMatx[row][col - l] = matxChars[row][col - l];
+      outputMatx[row][col - l] = charMatx[row][col - l];
     }
   }
   return outputMatx;
