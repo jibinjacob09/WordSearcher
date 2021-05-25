@@ -17,6 +17,7 @@ function wordSearchEngine(matxChars, lstWords) {
     word = word.toLocaleLowerCase();
     outputMatx = findHorizontalRight(horiz.right, word, matxChars, outputMatx);
     outputMatx = findHorizontalLeft(horiz.left, word, matxChars, outputMatx);
+    outputMatx = findVertDown(vert.down, word, matxChars, outputMatx);
   }
   console.log(outputMatx);
 }
@@ -50,6 +51,21 @@ function findHorizontalLeft(horizCharsL, word, charMatx, outputMatx) {
     }
   }
   return outputMatx;
+}
+
+function findVertDown(vertCharsD, word, charMatx, outputMatx) {
+  const newColIndex = vertCharsD.indexOf("~");
+  const wordIndex = vertCharsD.indexOf(word);
+  const _rowCount = charMatx.length;
+
+  if (wordIndex > -1) {
+    const col = Math.floor(wordIndex / (newColIndex + 1));
+    const row = wordIndex % (newColIndex + 1);
+    for (let l = 0; l < word.length; l++) {
+      outputMatx[row + l][col] = charMatx[row + l][col];
+    }
+  }
+  return outputMatx
 }
 
 function extractHorizChars(matxChars) {
