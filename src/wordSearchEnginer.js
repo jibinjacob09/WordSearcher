@@ -18,6 +18,7 @@ function wordSearchEngine(matxChars, lstWords) {
     outputMatx = findHorizontalRight(horiz.right, word, matxChars, outputMatx);
     outputMatx = findHorizontalLeft(horiz.left, word, matxChars, outputMatx);
     outputMatx = findVertDown(vert.down, word, matxChars, outputMatx);
+    outputMatx = findVertUp(vert.up, word, matxChars, outputMatx);
   }
   console.log(outputMatx);
 }
@@ -45,7 +46,6 @@ function findHorizontalLeft(horizCharsL, word, charMatx, outputMatx) {
     const row = Math.floor(wordIndex / (newRowIndex + 1));
     const col = _colCount - 1 - (wordIndex % (newRowIndex + 1));
 
-    console.log(`word: ${word} row:${row}, col:${col}`);
     for (let l = 0; l < word.length; l++) {
       outputMatx[row][col - l] = charMatx[row][col - l];
     }
@@ -56,7 +56,6 @@ function findHorizontalLeft(horizCharsL, word, charMatx, outputMatx) {
 function findVertDown(vertCharsD, word, charMatx, outputMatx) {
   const newColIndex = vertCharsD.indexOf("~");
   const wordIndex = vertCharsD.indexOf(word);
-  const _rowCount = charMatx.length;
 
   if (wordIndex > -1) {
     const col = Math.floor(wordIndex / (newColIndex + 1));
@@ -65,7 +64,22 @@ function findVertDown(vertCharsD, word, charMatx, outputMatx) {
       outputMatx[row + l][col] = charMatx[row + l][col];
     }
   }
-  return outputMatx
+  return outputMatx;
+}
+
+function findVertUp(vertCharsU, word, charMatx, outputMatx) {
+  const newColIndex = vertCharsU.indexOf("~");
+  const wordIndex = vertCharsU.indexOf(word);
+  const _rowCount = charMatx.length;
+
+  if (wordIndex > -1) {
+    const col = Math.floor(wordIndex / (newColIndex + 1));
+    const row = _rowCount - 1 - (wordIndex % (newColIndex + 1));
+    for (let l = 0; l < word.length; l++) {
+      outputMatx[row - l][col] = charMatx[row - l][col];
+    }
+  }
+  return outputMatx;
 }
 
 function extractHorizChars(matxChars) {
