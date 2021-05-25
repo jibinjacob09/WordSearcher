@@ -1,25 +1,77 @@
-import { matrix, words } from "./halloween";
+import { charmatrix, words } from "./halloween";
 import { _ } from "lodash";
 
 function wordSearchEngine(matxChars, lstWords) {
   let horiz = extractHorizChars(matxChars);
   let vert = extractVertChars(matxChars);
-  console.log()
-  console.log(vert.down)
+
+  const _rowCount = matxChars.length;
+  const _colCount = matxChars[0].length;
+
+  let outputMatx = [];
+  for (let i = 0; i < _rowCount; i++) {
+    outputMatx.push(Array(_colCount).fill("*"));
+  }
+
+  for (let word of lstWords) {
+    word = word.toLocaleLowerCase();
+    outputMatx = findHorizontalRight(horiz.right, word, matxChars, outputMatx);
+    // outputMatx = findHorizontalLeft(horiz.left, word, outputMatx)
+  }
+  console.log(outputMatx);
+}
+
+function findHorizontalRight(horizCharsR, word, charMatx, outputMatx) {
+  const newRowIndex = horizCharsR.indexOf("~");
+  const wordIndex = horizCharsR.indexOf(word);
+  if (wordIndex > -1) {
+    const row = Math.floor(wordIndex / newRowIndex);
+    const col = wordIndex % (newRowIndex + 1);
+
+    for (let l = 0; l < word.length; l++) {
+      outputMatx[row][col + l] = charMatx[row][col + l];
+    }
+  }
+  return outputMatx;
+}
+
+function findHorizontalLeft(horizCharsL, word,charMatx, outputMatx) {
+  const newRowIndex = horizCharsL.indexOf("~");
+  wordIndex = horizCharsL.indexOf(word);
+  if (wordIndex > -1) {
+    console.log(
+      `word: ${word} wordIndex: ${wordIndex}, newRowIndex: ${newRowIndex}`
+    );
+    const row = Math.floor(wordIndex / newRowIndex);
+    const col = _colCount - 1 - (wordIndex % (newRowIndex + 1));
+
+    console.log(`row:${wordIndex / newRowIndex}, col:${col}`);
+    for (let l = 0; l < word.length; l++) {
+      console.log(`r:${outputMatx[row]} val: ${matxChars[row]}`);
+      // outputMatx[row][col - l] = matxChars[row][col - l];
+    }
+  }
+  return outputMatx;
 }
 
 function extractHorizChars(matxChars) {
   let horizR = "";
   let horizL = "";
-  for (let row of matxChars) {
-    horizR += row.join("") + "~";
-    horizL += row.reverse().join("") + "~";
+  for (let row = 0; row < matxChars.length; row++) {
+    horizR += matxChars[row].join("") + "~";
+    const _l = _.clone(matxChars[row]);
+    horizL += _l.reverse().join("") + "~";
   }
-  return { right: horizR, left: horizL };
+
+  return {
+    right: horizR.toLocaleLowerCase(),
+    left: horizL.toLocaleLowerCase(),
+  };
 }
 
 function extractVertChars(matxChars) {
-  let transposedMatx = _.zip(...matxChars);
+  const _mtx = _.cloneDeep(matxChars);
+  let transposedMatx = _.zip(..._mtx);
   let vertU = "";
   let vertD = "";
 
@@ -27,7 +79,7 @@ function extractVertChars(matxChars) {
     vertD += row.join("") + "~";
     vertU += row.reverse().join("") + "~";
   }
-  return { up: vertU, down: vertD };
+  return { up: vertU.toLocaleLowerCase(), down: vertD.toLocaleLowerCase() };
 }
 
-wordSearchEngine(matrix, words);
+wordSearchEngine(charmatrix, words);

@@ -1,4 +1,4 @@
-export const matrix = [
+export const charmatrix = [
   ["d", "t", "f", "h", "n", "i", "f", "f", "o", "c", "i", "u", "x", "w", "m"],
   ["m", "o", "h", "w", "f", "n", "f", "q", "h", "y", "t", "r", "a", "p", "f"],
   ["a", "m", "a", "m", "i", "a", "a", "w", "h", "f", "c", "j", "v", "k", "j"],
