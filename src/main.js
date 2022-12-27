@@ -1,4 +1,4 @@
-import {wordSearchEngine} from './wordSearchEngine'
-import {words, charmatrix} from './halloween'
+import { wordSearchEngine } from './wordSearchEngine'
+import { charmatrix, words } from './halloween'
 
-wordSearchEngine(words, charmatrix)
+wordSearchEngine(charmatrix, words)
