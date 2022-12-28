@@ -1,22 +1,30 @@
-function populateCharLocObj(mtx) {
-    var obj = {}
-    for (let i = 65; i <= 90; i++) {
-        obj[String.fromCharCode(i)] = []
-    }
+export function wordSearchEngine(mtx, lstWords) {
+    var outputMatx = mtx.map((row) => {
+        return row.map((col) => {
+            return '*'
+        })
+    })
 
-    for (var row = 0; row < mtx.length; row++) {
-        for (let col = 0; col < mtx[row].length; col++) {
-            const letter = mtx[row][col].toUpperCase()
-            obj[letter].push({ r: row, c: col })
+    // checking every row
+    for (let rn = 0; rn < mtx.length; rn++) {
+        for (let word of lstWords) {
+            // checking each row in left-right ->  and right-left <-  direction
+            var wordLoc = getWordLocationInMtxSeg(word, mtx[rn]) || getWordLocationInMtxSeg(word, mtx[rn], true)
+            if (wordLoc) {
+                outputMatx[rn].splice(wordLoc[0], word.length, ...mtx[rn].slice(wordLoc[0], wordLoc[1]))
+            }
         }
     }
-    return obj
+    console.log(outputMatx)
 }
 
-export function wordSearchEngine(mtx, lstWords) {
-    const locInfo = populateCharLocObj(mtx)
-    console.log(locInfo)
-    for (let word of lstWords) {
-        console.log(word.toUpperCase())
+const getWordLocationInMtxSeg = (word, mtxSegment, reverse = false) => {
+    const rowStr = mtxSegment.join('')
+    const wordToLook = reverse ? word.split('').reverse().join('') : word
+    if (rowStr.includes(wordToLook)) {
+        const loc = rowStr.search(wordToLook)
+        const wordLoc = [loc, loc + word.length]
+        return wordLoc
     }
+    return null
 }
