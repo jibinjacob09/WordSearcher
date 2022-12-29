@@ -7,12 +7,13 @@ export function wordSearchEngine(mtx, lstWords) {
         })
     })
     const tposeMtx = _.zip(...mtx)
+    const diagonalStrs = getDiagonals(mtx)
 
     for (let word of lstWords) {
         var isWordFound = false
 
+        // checking every row
         if (!isWordFound) {
-            // checking every row
             for (let rn = 0; rn < mtx.length; rn++) {
                 // checking each row in left-right ->  and right-left <-  directions
                 var wordLoc = getWordLocationInMtxSeg(word, mtx[rn]) || getWordLocationInMtxSeg(word, mtx[rn], true)
@@ -24,8 +25,8 @@ export function wordSearchEngine(mtx, lstWords) {
             }
         }
 
+        // checking every column
         if (!isWordFound) {
-            // checking every column
             for (let rn = 0; rn < tposeMtx.length; rn++) {
                 // checking each column up-down and down-up directions
                 var wordLoc =
@@ -33,6 +34,21 @@ export function wordSearchEngine(mtx, lstWords) {
                 if (wordLoc) {
                     for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
                         outputMatx[ln][rn] = mtx[ln][rn]
+                    }
+                    isWordFound = true
+                    break
+                }
+            }
+        }
+
+        // checking diagonal down, top left to bottom right
+        if (!isWordFound) {
+            const diag1 = diagonalStrs[0]
+            for (let sn = 0; sn < diag1.length; sn++) {
+                var wordLoc = getWordLocationInMtxSeg(word, diag1[sn])
+                if (wordLoc) {
+                    for (let ln = wordLoc[0]; ln < 1 * (word.length + wordLoc[0]); ln++) {
+                        outputMatx[sn + ln][ln] = mtx[sn + ln][ln]
                     }
                     isWordFound = true
                     break
@@ -47,7 +63,7 @@ export function wordSearchEngine(mtx, lstWords) {
  * Look for the word in a segment, and if exist return the start and end position
  */
 const getWordLocationInMtxSeg = (word, mtxSegment, reverse = false) => {
-    const rowStr = mtxSegment.join('')
+    const rowStr = typeof mtxSegment !== 'string' ? mtxSegment.join('') : mtxSegment
     const wordToLook = reverse ? word.split('').reverse().join('') : word
     if (rowStr.includes(wordToLook)) {
         const loc = rowStr.search(wordToLook)
@@ -69,7 +85,6 @@ const getWordLocationInMtxSeg = (word, mtxSegment, reverse = false) => {
  */
 const getDiagonals = (mtx) => {
     const maxRows = mtx.length
-    const maxCol = mtx[0].length
 
     const diagStrDown1 = []
     const diagStrDown2 = []
