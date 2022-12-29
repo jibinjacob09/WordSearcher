@@ -9,23 +9,33 @@ export function wordSearchEngine(mtx, lstWords) {
     const tposeMtx = _.zip(...mtx)
 
     for (let word of lstWords) {
-        // checking every row
-        for (let rn = 0; rn < mtx.length; rn++) {
-            // checking each row in left-right ->  and right-left <-  directions
-            var wordLoc = getWordLocationInMtxSeg(word, mtx[rn]) || getWordLocationInMtxSeg(word, mtx[rn], true)
-            if (wordLoc) {
-                outputMatx[rn].splice(wordLoc[0], word.length, ...mtx[rn].slice(wordLoc[0], wordLoc[1]))
+        var isWordFound = false
+
+        if (!isWordFound) {
+            // checking every row
+            for (let rn = 0; rn < mtx.length; rn++) {
+                // checking each row in left-right ->  and right-left <-  directions
+                var wordLoc = getWordLocationInMtxSeg(word, mtx[rn]) || getWordLocationInMtxSeg(word, mtx[rn], true)
+                if (wordLoc) {
+                    outputMatx[rn].splice(wordLoc[0], word.length, ...mtx[rn].slice(wordLoc[0], wordLoc[1]))
+                    isWordFound = true
+                    break
+                }
             }
         }
 
-        // checking every column
-        for (let rn = 0; rn < tposeMtx.length; rn++) {
-            // checking each column up-down and down-up directions
-            var wordLoc =
-                getWordLocationInMtxSeg(word, tposeMtx[rn]) || getWordLocationInMtxSeg(word, tposeMtx[rn], true)
-            if (wordLoc) {
-                for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
-                    outputMatx[ln][rn] = mtx[ln][rn]
+        if (!isWordFound) {
+            // checking every column
+            for (let rn = 0; rn < tposeMtx.length; rn++) {
+                // checking each column up-down and down-up directions
+                var wordLoc =
+                    getWordLocationInMtxSeg(word, tposeMtx[rn]) || getWordLocationInMtxSeg(word, tposeMtx[rn], true)
+                if (wordLoc) {
+                    for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
+                        outputMatx[ln][rn] = mtx[ln][rn]
+                    }
+                    isWordFound = true
+                    break
                 }
             }
         }
