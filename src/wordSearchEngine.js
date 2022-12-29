@@ -30,13 +30,11 @@ export function wordSearchEngine(mtx, lstWords) {
             }
         }
     }
-    console.log(outputMatx)
-    // console.log(tposeMtx)
+    return outputMatx
 }
 
 /*
  * Look for the word in a segment, and if exist return the start and end position
- *
  */
 const getWordLocationInMtxSeg = (word, mtxSegment, reverse = false) => {
     const rowStr = mtxSegment.join('')
