@@ -2,12 +2,17 @@ import { wordSearchEngine } from './wordSearchEngine'
 import { charmatrix, words } from './halloween'
 import fs from 'fs'
 
-const outputMtx = wordSearchEngine(charmatrix, words)
+const result = wordSearchEngine(
+    charmatrix.map((row) => row.map((c) => c.toUpperCase())),
+    words.map((word) => word.toUpperCase())
+)
 
 const writeStream = fs.createWriteStream('solution.txt')
 const pathName = writeStream.path
 
-outputMtx.map((row) => writeStream.write(`${row}\n`))
+result.outputMatx.map((row) => writeStream.write(`${row}\n`))
+writeStream.write('\n')
+writeStream.write(`Words not found:  ${result.wordsNotFound} \n`)
 
 // the finish event is emitted when all data has been flushed from the stream
 writeStream.on('finish', () => {

@@ -10,7 +10,7 @@
     "build": "babel src -d dist",
     "clear": "rm solution.txt",
     "show": "cat solution.txt",
-    "serve": "yarn build; yarn clear; node dist/main.js; yarn show"
+    "solve": "yarn build; yarn clear; node dist/main.js; yarn show"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

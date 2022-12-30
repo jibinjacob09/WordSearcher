@@ -8,6 +8,7 @@ export function wordSearchEngine(mtx, lstWords) {
     })
     const tposeMtx = _.zip(...mtx)
     const diagonalStrs = getDiagonals(mtx)
+    const wordsNotFound = []
 
     for (let word of lstWords) {
         var isWordFound = false
@@ -100,8 +101,12 @@ export function wordSearchEngine(mtx, lstWords) {
                 }
             }
         }
+
+        if (!isWordFound) {
+            wordsNotFound.push(word)
+        }
     }
-    return outputMatx
+    return { outputMatx, wordsNotFound }
 }
 
 /*
