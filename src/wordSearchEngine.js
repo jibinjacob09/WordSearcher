@@ -55,6 +55,51 @@ export function wordSearchEngine(mtx, lstWords) {
                 }
             }
         }
+
+        // checking diagonal down, top left to top right
+        if (!isWordFound) {
+            const diag2 = diagonalStrs[1]
+            for (let sn = 0; sn < diag2.length; sn++) {
+                var wordLoc = getWordLocationInMtxSeg(word, diag2[sn])
+                if (wordLoc) {
+                    for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
+                        outputMatx[ln][sn + ln] = mtx[ln][sn + ln]
+                    }
+                    isWordFound = true
+                    break
+                }
+            }
+        }
+
+        // checking diagonal up, bottom left to top left
+        if (!isWordFound) {
+            const diag3 = diagonalStrs[2]
+            for (let sn = 0; sn < diag3.length; sn++) {
+                var wordLoc = getWordLocationInMtxSeg(word, diag3[sn])
+                if (wordLoc) {
+                    for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
+                        outputMatx[mtx.length - 1 - sn - ln][ln] = mtx[mtx.length - 1 - sn - ln][ln]
+                    }
+                    isWordFound = true
+                    break
+                }
+            }
+        }
+
+        // checking diagonal up, bottom left to bottom right
+        if (!isWordFound) {
+            const diag4 = diagonalStrs[3]
+            for (let sn = 0; sn < diag4.length; sn++) {
+                var wordLoc = getWordLocationInMtxSeg(word, diag4[sn])
+                if (wordLoc) {
+                    for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
+                        outputMatx[mtx.length - 1 - ln][sn + ln] = mtx[mtx.length - 1 - ln][sn + ln]
+                    }
+                    isWordFound = true
+                    break
+                }
+            }
+        }
     }
     return outputMatx
 }
