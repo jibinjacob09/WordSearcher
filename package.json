@@ -1,0 +1,29 @@
+{
+  "name": "WordSearcher",
+  "version": "0.0.1",
+  "description": "A program that solves wordsearch puzzles",
+  "main": "index.js",
+  "repository": "git@github.com:jibinjacob09/WordSearcher.git",
+  "author": "Jibin <jibinjj@yahoo.ca>",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src -d dist",
+    "clear": "rm solution.txt",
+    "show": "cat solution.txt",
+    "solve": "yarn build; yarn clear; node dist/main.js; yarn show"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "prettier": "^2.8.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "mathjs": "^9.4.0"
+  }
+}
