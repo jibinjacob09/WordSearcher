@@ -45,7 +45,7 @@ export function wordSearchEngine(mtx, lstWords) {
         if (!isWordFound) {
             const diag1 = diagonalStrs[0]
             for (let sn = 0; sn < diag1.length; sn++) {
-                var wordLoc = getWordLocationInMtxSeg(word, diag1[sn])
+                var wordLoc = getWordLocationInMtxSeg(word, diag1[sn]) || getWordLocationInMtxSeg(word, diag1[sn], true)
                 if (wordLoc) {
                     for (let ln = wordLoc[0]; ln < 1 * (word.length + wordLoc[0]); ln++) {
                         outputMatx[sn + ln][ln] = mtx[sn + ln][ln]
@@ -60,7 +60,7 @@ export function wordSearchEngine(mtx, lstWords) {
         if (!isWordFound) {
             const diag2 = diagonalStrs[1]
             for (let sn = 0; sn < diag2.length; sn++) {
-                var wordLoc = getWordLocationInMtxSeg(word, diag2[sn])
+                var wordLoc = getWordLocationInMtxSeg(word, diag2[sn]) || getWordLocationInMtxSeg(word, diag2[sn])
                 if (wordLoc) {
                     for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
                         outputMatx[ln][sn + ln] = mtx[ln][sn + ln]
@@ -75,7 +75,7 @@ export function wordSearchEngine(mtx, lstWords) {
         if (!isWordFound) {
             const diag3 = diagonalStrs[2]
             for (let sn = 0; sn < diag3.length; sn++) {
-                var wordLoc = getWordLocationInMtxSeg(word, diag3[sn])
+                var wordLoc = getWordLocationInMtxSeg(word, diag3[sn]) || getWordLocationInMtxSeg(word, diag3[sn])
                 if (wordLoc) {
                     for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
                         outputMatx[mtx.length - 1 - sn - ln][ln] = mtx[mtx.length - 1 - sn - ln][ln]
@@ -90,7 +90,7 @@ export function wordSearchEngine(mtx, lstWords) {
         if (!isWordFound) {
             const diag4 = diagonalStrs[3]
             for (let sn = 0; sn < diag4.length; sn++) {
-                var wordLoc = getWordLocationInMtxSeg(word, diag4[sn])
+                var wordLoc = getWordLocationInMtxSeg(word, diag4[sn]) || getWordLocationInMtxSeg(word, diag4[sn], true)
                 if (wordLoc) {
                     for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
                         outputMatx[mtx.length - 1 - ln][sn + ln] = mtx[mtx.length - 1 - ln][sn + ln]

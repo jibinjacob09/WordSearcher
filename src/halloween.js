@@ -1,7 +1,7 @@
 export const charmatrix = [
     ['d', 't', 'f', 'h', 'n', 'i', 'f', 'f', 'o', 'c', 'i', 'u', 'x', 'w', 'm'],
     ['m', 'o', 'h', 'w', 'f', 'n', 'f', 'q', 'h', 'y', 't', 'r', 'a', 'p', 'f'],
-    ['a', 'm', 'a', 'm', 'i', 'a', 'a', 'w', 'h', 'f', 'c', 'j', 'v', 'k', 'j'],
+    ['a', 'm', 'a', 'm', 'i', 'a', 'a', 'w', 'h', 'f', 'c', 'j', 'v', 'k', 'x'],
     ['e', 'b', 'u', 'b', 'w', 't', 'd', 'r', 'a', 'y', 'e', 'v', 'a', 'r', 'g'],
     ['r', 'o', 'n', 'x', 'a', 'y', 'c', 'a', 'n', 'd', 'y', 'w', 'j', 'n', 'r'],
     ['c', 's', 't', 'r', 'r', 't', 'v', 'h', 'j', 'n', 'v', 'q', 'y', 'd', 't'],
@@ -43,5 +43,8 @@ export const words = [
     'trick',
     'vampire',
     'werewolf',
-    'witch'
+    'witch',
+    'xpx',
+    'vojc',
+    'xiit'
 ]
