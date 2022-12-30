@@ -61,7 +61,7 @@ export function wordSearchEngine(mtx, lstWords) {
         if (!isWordFound) {
             const diag2 = diagonalStrs[1]
             for (let sn = 0; sn < diag2.length; sn++) {
-                var wordLoc = getWordLocationInMtxSeg(word, diag2[sn]) || getWordLocationInMtxSeg(word, diag2[sn])
+                var wordLoc = getWordLocationInMtxSeg(word, diag2[sn]) || getWordLocationInMtxSeg(word, diag2[sn], true)
                 if (wordLoc) {
                     for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
                         outputMatx[ln][sn + ln] = mtx[ln][sn + ln]
@@ -76,7 +76,7 @@ export function wordSearchEngine(mtx, lstWords) {
         if (!isWordFound) {
             const diag3 = diagonalStrs[2]
             for (let sn = 0; sn < diag3.length; sn++) {
-                var wordLoc = getWordLocationInMtxSeg(word, diag3[sn]) || getWordLocationInMtxSeg(word, diag3[sn])
+                var wordLoc = getWordLocationInMtxSeg(word, diag3[sn]) || getWordLocationInMtxSeg(word, diag3[sn], true)
                 if (wordLoc) {
                     for (let ln = wordLoc[0]; ln < wordLoc[1]; ln++) {
                         outputMatx[mtx.length - 1 - sn - ln][ln] = mtx[mtx.length - 1 - sn - ln][ln]

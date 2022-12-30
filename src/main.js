@@ -1,5 +1,5 @@
 import { wordSearchEngine } from './wordSearchEngine'
-import { charmatrix, words } from './halloween'
+import { charmatrix, words } from './Puzzles/christmas'
 import fs from 'fs'
 
 const result = wordSearchEngine(
@@ -12,7 +12,12 @@ const pathName = writeStream.path
 
 result.outputMatx.map((row) => writeStream.write(`${row}\n`))
 writeStream.write('\n')
-writeStream.write(`Words not found:  ${result.wordsNotFound} \n`)
+
+if (result.wordsNotFound.length) {
+    writeStream.write(`Words not found:  ${result.wordsNotFound} \n`)
+} else {
+    writeStream.write(`All words have been found!! \n`)
+}
 
 // the finish event is emitted when all data has been flushed from the stream
 writeStream.on('finish', () => {
