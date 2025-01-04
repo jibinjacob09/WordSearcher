@@ -27,6 +27,7 @@
   "dependencies": {
     "express": "^4.21.2",
     "lodash": "^4.17.21",
-    "mathjs": "^9.4.0"
+    "mathjs": "^9.4.0",
+    "tesseract.js": "^5.1.1"
   }
 }

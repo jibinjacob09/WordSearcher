@@ -1,7 +1,7 @@
 // express routes
 import { Router } from 'express';
 import { wordSearchSolverService } from './services/wordSearchSolverService.js';
-import { recieveImageDecoded } from './services/imageHandler.js';
+import { handleUploadImageService } from './services/imageHandler.js';
 
 const router = Router();
 
@@ -10,14 +10,15 @@ router.get('/', (req, res) => {
 });
 
 
-router.post('/upload', (req, res) => {
-    const { imgData, metadata } = req.body;
-    if ((!imgData) || (!metadata)) {
+router.post('/upload', async (req, res) => {
+    const { dataType, imgData, metadata } = req.body;
+    if ((!dataType) || (!imgData) || (!metadata)) {
         res.status(400).send('Bad Request');
     }
     const buffer = Buffer.from(imgData, 'base64');
-    recieveImageDecoded(buffer, metadata);
-    res.send('Image uploaded successfully');
+    const parsedData = await handleUploadImageService(buffer, metadata, dataType);
+    console.log(dataType, parsedData);
+    res.send(parsedData);
 })
 
 router.post('/solve', (req, res) => {
