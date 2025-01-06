@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-export function wordSearchEngine(mtx, lstWords) {
+export function wordSearchSolverService(mtx, lstWords) {
     var outputMatx = mtx.map((row) => {
         return row.map((_) => {
             return '*'
